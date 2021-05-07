@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component } from 'react'
 import { API_KEY, API_URL, IMAGE_URL } from '../config/keys';
 import { Link } from 'react-router-dom';
 import GridCard from './Movies/GridCard';
@@ -6,6 +6,7 @@ import { Row } from 'reactstrap';
 import TvGridCard from './TV/TvGridCard';
 import swal from 'sweetalert';
 import Fade from 'react-reveal/Fade';
+import { Helmet } from 'react-helmet';
 
 class SearchBox extends Component {
 
@@ -87,6 +88,9 @@ class SearchBox extends Component {
     render() {
     return (
         <>
+        <Helmet>
+            <title>{this.state.searchQuery ? `Search ${this.state.searchQuery}` : "Search Movies and TV Shows"}</title>
+        </Helmet>
         <div className="mt-3">
         {/* Breadcrumb */}
             <div style={{ width: '95%', margin: '1rem auto' }}>
@@ -98,8 +102,8 @@ class SearchBox extends Component {
                 </nav>
             </div>
 
-            <div className="row">
-                <div className="col-6 offset-3">
+            <div className="row m-0">
+                <div className="col-12 col-md-6 col-sm-6 offset-md-3 offset-sm-3">
                     <form className="form-group">
                         <div className="input-group">
                             <input 
@@ -147,8 +151,8 @@ class SearchBox extends Component {
 
         {/* search results */}
         <div style={{ width: '95%', margin: '1rem auto' }}>
-            <div className="text-center">
-                <div className="font-weight-lighter h2"> Search Results </div>
+            <div>
+                <div className="font-weight-lighter h2 text-center"> Search Results </div>
                 <div className="results">
                     {this.state.selectedOption === 'movie' ? 
                         <Row>

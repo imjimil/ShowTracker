@@ -4,6 +4,7 @@ import Fade from 'react-reveal/Fade';
 
 import axios from 'axios';
 import swal from 'sweetalert';
+import { Helmet } from 'react-helmet';
 
 const formValid = ({ formErrors, ...rest }) => {
   let valid = true;
@@ -127,8 +128,11 @@ class Signin extends Component {
         const { formErrors } = this.state;
 
         return (
-          
-          <div className="wrapper">
+          <>
+          <Helmet>
+            <title>Login</title>
+          </Helmet>
+          <div className="wrapper row m-0">
             <div>
               {/* Breadcrumbs */}
               <nav aria-label="breadcrumb" className="position-absolute" style={{top: '2rem', right: '2rem'}}>
@@ -138,7 +142,7 @@ class Signin extends Component {
                         </ol>
               </nav>
             </div>
-          <div className="form-wrapper">
+          <div className="form-wrapper col-lg-4">
             {redirectVar}
 
             <h1 className="font-weight-lighter" style={{color: "black"}}> Login</h1>
@@ -182,6 +186,7 @@ class Signin extends Component {
             </form>
           </div>
         </div>
+        </>
         );
     }
 }

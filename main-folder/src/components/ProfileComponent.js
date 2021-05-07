@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import swal from 'sweetalert';
 import Fade from 'react-reveal/Fade';
+import { Helmet } from 'react-helmet';
 
 const Profile = (props) => {
 
@@ -85,8 +86,14 @@ const Profile = (props) => {
     })
   }
 
+  {/*below get request is require user to authenticate first. auth only shown in this request
+  just to show that it works you can apply this in all requests*/}
   const fetchUserInfo = () => {
-    axios.get(`http://localhost:5000/users/getUser/${localStorage.getItem("userId")}`)
+    axios.get(`http://localhost:5000/users/getUser/${localStorage.getItem("userId")}`, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('user')
+      }
+    })
     .then(response => {
       if(response.data.success) {
         console.log(response.data.found);
@@ -170,7 +177,9 @@ const Profile = (props) => {
     fetchUserInfo();
     fetchFavoriteMovies();
     fetchWatchedMovies();
-    fetchFavoriteShows()
+    fetchFavoriteShows();
+
+    window.scrollTo(0,0);
   }, []);
     
   {/* Joined date of the account*/}
@@ -180,6 +189,9 @@ const Profile = (props) => {
 
   return( 
     <>
+      <Helmet>
+          <title>{UserInfo.username ? `Profile - ${UserInfo.username}` : "Profile"}</title>
+      </Helmet>
       <div className="mt-3" style={{width:'95%', margin:'3rem auto'}}>
           {/* Breadcrumbs */}
           <nav aria-label="breadcrumb">
@@ -217,7 +229,7 @@ const Profile = (props) => {
                       <h6 className="mb-0">Full Name</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                    {`${UserInfo.firstName} ${UserInfo.lastName}`}
+                    {UserInfo.firstName + " " + UserInfo.lastName}
                     </div>
                   </div>
                   <hr />
@@ -310,7 +322,7 @@ const Profile = (props) => {
                       <div className="position-relative">
                         <Link to={`/movies/${favoritemovie.movieId}`} className="text-decoration-none">
                           <img className="card border-0" style={{ width: '100%', height: '330px' }} alt="img" src={`${IMAGE_URL}w500${favoritemovie.moviePosterImage}`} />
-                          <div className="text-center font-weight-bold text-decoration-none">{favoritemovie.movieTitle}</div>
+                          <div className="mt-1 font-weight-bold text-decoration-none" style={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{favoritemovie.movieTitle}</div>
                         </Link>
                         <div style={{position: "absolute", top: '1rem', right: '1rem'}}>
                           <button className="btn btn-danger" onClick={() => onClickRemove(favoritemovie.movieId)}> Remove </button>
@@ -341,7 +353,7 @@ const Profile = (props) => {
                       <div className="position-relative">
                         <Link to={`/movies/${watchedmovie.movieId}`} className="text-decoration-none">
                           <img className="card border-0" style={{ width: '100%', height: '330px' }} alt="img" src={`${IMAGE_URL}w500${watchedmovie.moviePosterImage}`} />
-                          <div className="text-center font-weight-bold text-decoration-none">{watchedmovie.movieTitle}</div>
+                          <div className="mt-1 font-weight-bold text-decoration-none" style={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{watchedmovie.movieTitle}</div>
                         </Link>
                         <div style={{position: "absolute", top: '1rem', right: '1rem'}}>
                           <button className="btn btn-danger" onClick={() => removeWatched(watchedmovie.movieId)}> Remove </button>
@@ -371,7 +383,7 @@ const Profile = (props) => {
                       <div className="position-relative">
                         <Link to={`/tv/${favoriteshow.tvId}`} className="text-decoration-none">
                           <img className="card border-0" style={{ width: '100%', height: '330px' }} alt="img" src={`${IMAGE_URL}w500${favoriteshow.tvPosterImage}`} />
-                          <div className="text-center font-weight-bold text-decoration-none">{favoriteshow.tvTitle}</div>
+                          <div className="mt-1 font-weight-bold text-decoration-none" style={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{favoriteshow.tvTitle}</div>
                         </Link>
                         <div style={{position: "absolute", top: '1rem', right: '1rem'}}>
                           <button className="btn btn-danger" onClick={() => removeFavoriteShow(favoriteshow.tvId)}> Remove </button>

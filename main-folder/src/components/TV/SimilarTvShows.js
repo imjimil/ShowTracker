@@ -24,16 +24,17 @@ function SimilarTvShows(props) {
                 <div className="row flex-row flex-nowrap">
                 {SimilarShows && SimilarShows.map((shows, index) => (
                     <React.Fragment key={index}>
+                        {shows.poster_path &&
                         <div className="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-3">
                             <Fade>
                             <div>
                                 <Link to={`/tv/${shows.id}`} className="text-decoration-none" >
                                     <img className="card border-0" style={{ width: '100%', height: '330px' }} alt="img" src={shows.poster_path && `${IMAGE_URL}w500${shows.poster_path}`} loading="lazy" />
-                                    <div className="text-center font-weight-bold">{shows.name}</div>
+                                    <div className="font-weight-bold" style={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{shows.name}</div>
                                 </Link>
                             </div>
                             </Fade>
-                        </div>
+                        </div>}
                     </React.Fragment>
                 ))}
                 </div>
